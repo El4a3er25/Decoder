@@ -1,0 +1,5 @@
+# RUN: "%decoder" "%S/../test_prog.elf" > "%t.out"
+# RUN: grep -q "Valid RISC-V ELF file found." "%t.out"
+# RUN: grep -q "Decoding .text section..." "%t.out"
+# RUN: grep -q "0x10000: ADDI x1, x0, 10" "%t.out"
+# RUN: grep -q "0x10004: ADD x2, x1, x1" "%t.out"

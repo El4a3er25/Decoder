@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential libgtest-dev llvm
+        pip install lit
+        
+    - name: Generate Dummy ELF
+      run: python create_test_elf.py
+        
+    - name: Build Decoder
+      run: make
+      
+    - name: Run Unit Tests (Google Test)
+      run: make test
+      
+    - name: Run Regression Tests (LIT)
+      run: lit lit_tests/
